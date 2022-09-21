@@ -1,22 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { FlexRowCenter } from '../../components/View';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { FlexRowCenter, FlexColumn } from '../../components/View';
 import TextView from '../../components/TextView';
+import DefaultModal from '../../components/DefaultModal';
 
 type Props = {};
 
 const Home = (props: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <FlexRowCenter>
-      <TextView style={{ color: 'black' }} size='text_13'>
-        test1
-      </TextView>
-      <TextView style={{ color: 'black' }} size='text_13'>
-        test2
-      </TextView>
-      <TextView style={{ color: 'black' }} size='text_13'>
-        test3
-      </TextView>
+      <Pressable onPress={() => setIsOpen(true)}>
+        <TextView size={'text_11'}>Test</TextView>
+      </Pressable>
+      <DefaultModal
+        isModalOpen={isOpen}
+        setIsModalOpen={() => setIsOpen(false)}
+      >
+        <TextView size={'text_11'}>asdsadadad</TextView>
+      </DefaultModal>
     </FlexRowCenter>
   );
 };
