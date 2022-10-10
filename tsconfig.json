@@ -17,9 +17,6 @@
     "sourceMap": true,
     "target": "es2015",
     "allowJs": true,
-    "paths": {
-      "app/*": ["./*"]
-    },
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["**/*.ts", "**/*.tsx", "declarations.d.ts"],
