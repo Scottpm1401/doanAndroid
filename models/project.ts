@@ -1,5 +1,5 @@
-import { Sprint } from './sprint';
-
+import { mockListSprint, Sprint } from "./sprint";
+import uuid from "react-native-uuid";
 export type Project = {
   id: string;
   sprints: Sprint[];
@@ -12,3 +12,29 @@ export enum ProjectStatus {
   INPROGRESS,
   DONE,
 }
+export const mockListProject: Project[] = [
+  {
+    id: uuid.v4().toString(),
+    sprints: mockListSprint,
+    status: ProjectStatus.INPROGRESS,
+    title: "test1",
+  },
+  {
+    id: uuid.v4().toString(),
+    sprints: mockListSprint,
+    status: ProjectStatus.INPROGRESS,
+    title: "test1",
+  },
+  {
+    id: uuid.v4().toString(),
+    sprints: mockListSprint,
+    status: ProjectStatus.INPROGRESS,
+    title: "test1",
+  },
+  {
+    id: uuid.v4().toString(),
+    sprints: mockListSprint,
+    status: ProjectStatus.INPROGRESS,
+    title: "test1",
+  },
+];
