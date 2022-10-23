@@ -8,9 +8,9 @@ export type Sprint = {
 };
 
 export enum SprintStatus {
-  ACTIVE,
-  INACTIVE,
-  DONE,
+  ACTIVE = "Active",
+  INACTIVE = "Inactive",
+  DONE = "Done",
 }
 
 export const mockListSprint: Sprint[] = [

@@ -8,9 +8,9 @@ export type Project = {
 };
 
 export enum ProjectStatus {
-  PLANNING,
-  INPROGRESS,
-  DONE,
+  PLANNING = "PLANNING",
+  INPROGRESS = "INPROGRESS",
+  DONE = "DONE",
 }
 export const mockListProject: Project[] = [
   {
@@ -23,18 +23,18 @@ export const mockListProject: Project[] = [
     id: uuid.v4().toString(),
     sprints: mockListSprint,
     status: ProjectStatus.INPROGRESS,
-    title: "test1",
+    title: "test2",
   },
   {
     id: uuid.v4().toString(),
     sprints: mockListSprint,
     status: ProjectStatus.INPROGRESS,
-    title: "test1",
+    title: "test3",
   },
   {
     id: uuid.v4().toString(),
     sprints: mockListSprint,
     status: ProjectStatus.INPROGRESS,
-    title: "test1",
+    title: "test4",
   },
 ];

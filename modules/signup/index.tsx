@@ -1,8 +1,8 @@
-import { View, Text, TextInput, Pressable } from "react-native";
-import React, { useState } from "react";
+import { View, TextInput, Pressable } from "react-native";
+import { useContext, useState } from "react";
 import { FlexColumn, FlexRowCenter } from "../../components/View";
 import TextView from "../../components/TextView";
-import { userlist } from "../../models/user";
+import { Role, User } from "../../models/user";
 import styled from "styled-components/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
@@ -16,6 +16,9 @@ import {
 } from "libphonenumber-js";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { goBack, navigate } from "../../utils/navigation";
+import { AuthContext } from "../../context/authContext";
+import uuid from "react-native-uuid";
 
 type SignUpType = {
   email: string;
@@ -36,14 +39,7 @@ const Input = styled(TextInput)({
 
 const Signup = () => {
   const [isShow, setIsShow] = useState<Boolean>(false);
-  const [data, setData] = useState(userlist);
-  const [user, setUser] = useState<SignUpType>({
-    email: "",
-    password: "",
-    displayName: "",
-    dob: moment().format(),
-    phonenumber: "",
-  });
+  const { users, setUsers, setUser } = useContext(AuthContext);
   const SignupSchema = Yup.object().shape({
     email: Yup.string().required("Required").email("Invalid Email"),
     password: Yup.string().required("Required"),
@@ -51,7 +47,7 @@ const Signup = () => {
     dob: Yup.string().required("Required"),
     phonenumber: Yup.string().required("Required"),
   });
-  const onSignup = (values: any) => {
+  const onSignup = (values: SignUpType) => {
     // if (
     //   isPossibleNumber(user.phonenumber, "VN") &&
     //   isValidPhoneNumber(user.phonenumber, "VN") &&
@@ -64,7 +60,23 @@ const Signup = () => {
     //     number.getType()
     //   );
     // } else console.log("error");
-    console.log(values);
+    const findUser = users.find((item) => item.email === values.email);
+    if (!!!findUser) {
+      const newUser: User = {
+        id: uuid.v4().toString(),
+        displayName: values.displayName,
+        email: values.email,
+        phoneNumber: values.phonenumber,
+        dob: values.dob,
+        password: values.password,
+        avatar: "",
+        projects: [],
+        role: Role.USER,
+      };
+      setUsers((prevState) => [...prevState, newUser]);
+      setUser(newUser);
+      navigate("home");
+    }
   };
   return (
     <FlexColumn
@@ -76,11 +88,26 @@ const Signup = () => {
       }}
     >
       <Formik
-        initialValues={user}
+        initialValues={
+          {
+            email: "",
+            password: "",
+            displayName: "",
+            dob: moment().format(),
+            phonenumber: "",
+          } as SignUpType
+        }
         onSubmit={onSignup}
         validationSchema={SignupSchema}
       >
-        {({ handleChange, values, handleSubmit, errors, touched }) => (
+        {({
+          handleChange,
+          values,
+          handleSubmit,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <View
             style={{
               padding: 16,
@@ -95,29 +122,25 @@ const Signup = () => {
             <TextView size={"text_15"}>Name</TextView>
             <Input
               placeholder="Enter your Name"
-              onChangeText={(value) => {
-                setUser((prevState) => ({ ...prevState, displayName: value }));
-              }}
+              onChangeText={handleChange("displayName")}
             />
             <TextView size={"text_15"}>Phone Number</TextView>
             <Input
               placeholder="Enter your Phone number"
-              onChangeText={(value) => {
-                setUser((prevState) => ({ ...prevState, phonenumber: value }));
-              }}
+              onChangeText={handleChange("phonenumber")}
             />
             <FlexRowCenter style={{}}>
               <TextView size={"text_15"}>Birthday</TextView>
               <DateTimePicker
                 style={{ display: "flex", width: 190, height: 40 }}
-                value={moment(user.dob).toDate()}
+                value={moment(values.dob).toDate()}
                 mode={"date"}
                 display="default"
                 onChange={(e, value) => {
-                  setUser((prevState) => ({
-                    ...prevState,
-                    dob: value ? value.toString() : moment().format(),
-                  }));
+                  setFieldValue(
+                    "dob",
+                    value ? value.toString() : moment().format()
+                  );
                 }}
               />
             </FlexRowCenter>
@@ -158,12 +181,14 @@ const Signup = () => {
               <TextView style={{ marginTop: 8 }} size="text_11">
                 Already have account?
               </TextView>
-              <TextView
-                style={{ padding: 2, color: "blue", marginTop: 8 }}
-                size="text_11"
+              <Pressable
+                style={{ padding: 2, marginTop: 8 }}
+                onPress={() => goBack()}
               >
-                Sign in
-              </TextView>
+                <TextView style={{ color: "blue" }} size="text_11">
+                  Sign in
+                </TextView>
+              </Pressable>
             </FlexRowCenter>
           </View>
         )}

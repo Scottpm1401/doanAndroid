@@ -1,4 +1,4 @@
-import { Project } from "./project";
+import { mockListProject, Project } from "./project";
 import uuid from "react-native-uuid";
 
 export type User = {
@@ -28,6 +28,17 @@ export const userlist: User[] = [
     password: "123456",
     avatar: "",
     projects: [],
+    role: Role.USER,
+  },
+  {
+    id: uuid.v4().toString(),
+    displayName: "Nhat",
+    email: "Nhat@example.com",
+    phoneNumber: " 123456789",
+    dob: "31/01/2001",
+    password: "1234",
+    avatar: "",
+    projects: mockListProject,
     role: Role.USER,
   },
 ];
