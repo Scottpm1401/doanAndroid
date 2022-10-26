@@ -19,6 +19,7 @@ import * as Yup from "yup";
 import { goBack, navigate } from "../../utils/navigation";
 import { AuthContext } from "../../context/authContext";
 import uuid from "react-native-uuid";
+import { Button } from "native-base";
 
 type SignUpType = {
   email: string;
@@ -123,11 +124,13 @@ const Signup = () => {
             <Input
               placeholder="Enter your Name"
               onChangeText={handleChange("displayName")}
+              style={{ marginBottom: 8 }}
             />
             <TextView size={"text_15"}>Phone Number</TextView>
             <Input
               placeholder="Enter your Phone number"
               onChangeText={handleChange("phonenumber")}
+              style={{ marginBottom: 8 }}
             />
             <FlexRowCenter style={{}}>
               <TextView size={"text_15"}>Birthday</TextView>
@@ -150,6 +153,7 @@ const Signup = () => {
             <Input
               placeholder="Enter your email"
               onChangeText={handleChange("email")}
+              style={{ marginBottom: 8 }}
             />
             {errors.email && touched.email && (
               <TextView size="text_11">{errors.email}</TextView>
@@ -159,33 +163,33 @@ const Signup = () => {
               secureTextEntry
               placeholder="Enter your password"
               onChangeText={handleChange("password")}
+              style={{ marginBottom: 8 }}
             />
             {errors.password && touched.password && (
               <TextView size="text_11">{errors.password}</TextView>
             )}
 
-            <Pressable
-              style={{
-                backgroundColor: "rgb(52,179,228)",
-                borderWidth: 3,
-                alignItems: "center",
-                marginTop: 8,
-              }}
-              onPress={() => handleSubmit()}
-            >
-              <TextView style={{}} size="text_20">
-                Sign Up
+            <Button colorScheme="secondary" onPress={() => handleSubmit()}>
+              <TextView
+                style={{ color: "white" }}
+                size="text_20"
+                fontWeight="bold"
+              >
+                SIGN UP
               </TextView>
-            </Pressable>
+            </Button>
             <FlexRowCenter>
-              <TextView style={{ marginTop: 8 }} size="text_11">
+              <TextView style={{ marginTop: 8 }} size="text_14">
                 Already have account?
               </TextView>
               <Pressable
                 style={{ padding: 2, marginTop: 8 }}
                 onPress={() => goBack()}
               >
-                <TextView style={{ color: "blue" }} size="text_11">
+                <TextView
+                  style={{ color: "blue", marginLeft: 4 }}
+                  size="text_14"
+                >
                   Sign in
                 </TextView>
               </Pressable>

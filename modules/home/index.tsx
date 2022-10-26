@@ -70,17 +70,17 @@ const Home = (props: Props) => {
     return (
       <Pressable
         style={{
-          borderBottomWidth: 2,
+          borderBottomWidth: 1,
           paddingVertical: 8,
-          borderColor: "rgba(0,0,0,0.4)",
+          borderColor: "rgba(255,255,255,0.6)",
         }}
         onPress={() => changeProject(item)}
       >
         <FlexRowCenter>
-          <TextView style={{ marginRight: 8 }} size="text_16">
+          <TextView style={{ marginRight: 8, color: "white" }} size="text_16">
             {item.title}
           </TextView>
-          <TextView style={{ marginRight: 8 }} size="text_14">
+          <TextView style={{ marginRight: 8, color: "white" }} size="text_14">
             {item.status}
           </TextView>
           {project?.id === item.id && (
@@ -137,17 +137,30 @@ const Home = (props: Props) => {
         index={-1}
         enablePanDownToClose
         animateOnMount
+        backgroundStyle={{ backgroundColor: "rgba(30,41,59,1)" }}
       >
         <FlexColumn style={{ paddingHorizontal: 8 }}>
           <FlexRowCenter style={{ justifyContent: "space-between" }}>
-            <TextView size="text_16">Your Project</TextView>
+            <TextView
+              style={{ color: "white" }}
+              size="text_16"
+              fontWeight="bold"
+            >
+              Your Project
+            </TextView>
             <Pressable
               onPress={() => {
                 setIsProjectOpen(true);
                 handleClosePress();
               }}
             >
-              <TextView size="text_16">New Project</TextView>
+              <TextView
+                style={{ color: "white" }}
+                size="text_16"
+                fontWeight="bold"
+              >
+                New Project
+              </TextView>
             </Pressable>
           </FlexRowCenter>
 

@@ -8,6 +8,7 @@ import { navigate } from "../../utils/navigation";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { AuthContext } from "../../context/authContext";
+import { Button } from "native-base";
 
 type LoginType = { email: string; password: string };
 
@@ -67,40 +68,50 @@ const Login = () => {
               width: 200,
             }}
           >
-            <TextView size={"text_15"}>Email</TextView>
+            <TextView style={{ marginBottom: 2 }} size={"text_16"}>
+              Email
+            </TextView>
             <Input
               placeholder="Enter your email"
               onChangeText={handleChange("email")}
+              style={{ marginBottom: 8 }}
             />
-            <TextView size={"text_15"}>Password</TextView>
+            <TextView style={{ marginBottom: 2 }} size={"text_16"}>
+              Password
+            </TextView>
             <Input
               secureTextEntry
               placeholder="Enter your password"
               onChangeText={handleChange("password")}
+              style={{ marginBottom: 8 }}
             />
 
-            <Pressable
-              style={{
-                backgroundColor: "rgb(52,179,228)",
-                borderWidth: 3,
-                alignItems: "center",
-                marginTop: 8,
-              }}
+            <Button
+              colorScheme="secondary"
+              marginTop="1"
+              size="sm"
               onPress={() => handleSubmit()}
             >
-              <TextView style={{}} size="text_20">
+              <TextView
+                style={{ color: "white" }}
+                size="text_20"
+                fontWeight="bold"
+              >
                 LOGIN
               </TextView>
-            </Pressable>
+            </Button>
             <FlexRowCenter>
-              <TextView style={{ marginTop: 8 }} size="text_11">
+              <TextView style={{ marginTop: 8 }} size="text_14">
                 Not have account?
               </TextView>
               <Pressable
                 style={{ marginTop: 8 }}
                 onPress={() => navigate("signup")}
               >
-                <TextView style={{ color: "blue" }} size="text_11">
+                <TextView
+                  style={{ color: "blue", marginLeft: 4 }}
+                  size="text_14"
+                >
                   Sign up
                 </TextView>
               </Pressable>
