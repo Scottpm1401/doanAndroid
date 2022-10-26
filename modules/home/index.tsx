@@ -19,6 +19,7 @@ import { mockListProject, Project } from "../../models/project";
 import CheckIcon from "../../assets/svg/check_icon.svg";
 import CreateSprint from "./components/CreateSprint";
 import { ProjectContext } from "../../context/projectContext";
+import { Button, Avatar } from "native-base";
 type Props = {};
 
 const Home = (props: Props) => {
@@ -34,7 +35,10 @@ const Home = (props: Props) => {
     return (
       <SprintItem
         props={item}
-        callbackEditSprint={() => setIsSprintOpen(true)}
+        callbackEditSprint={() => {
+          setIsSprintOpen(true);
+          setSprint(item);
+        }}
       />
     );
   };
@@ -95,18 +99,26 @@ const Home = (props: Props) => {
         width: "100%",
       }}
     >
-      <FlexRowCenter style={{ justifyContent: "space-between" }}>
-        <Pressable onPress={() => handleSnapPress(0)}>
-          <TextView size="text_13" style={{ color: "blue" }}>
+      <FlexRowCenter style={{ justifyContent: "space-between", marginTop: 8 }}>
+        <Avatar
+          size="sm"
+          source={{
+            uri:
+              user?.avatar ||
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+          }}
+        />
+        <Button padding="1" onPress={() => handleSnapPress(0)}>
+          <TextView size="text_16" style={{ color: "white" }} fontWeight="bold">
             {`PROJECT: ${project?.title}`}
           </TextView>
-        </Pressable>
+        </Button>
 
-        <Pressable onPress={() => setIsSprintOpen(true)}>
-          <TextView style={{ color: "blue" }} size="text_15">
+        <Button padding="1" onPress={() => setIsSprintOpen(true)}>
+          <TextView style={{ color: "white" }} size="text_16" fontWeight="bold">
             Create Sprint
           </TextView>
-        </Pressable>
+        </Button>
       </FlexRowCenter>
       <FlexColumn>
         {project && (
@@ -151,8 +163,12 @@ const Home = (props: Props) => {
         isOpen={isProjectOpen}
       />
       <CreateSprint
-        setIsOpen={() => setIsSprintOpen(false)}
+        setIsOpen={() => {
+          setIsSprintOpen(false);
+          setSprint(undefined);
+        }}
         isOpen={isSprintOpen}
+        sprint={sprint}
       />
     </FlexColumn>
   );

@@ -10,7 +10,6 @@ import React, { useState } from "react";
 import TextView from "../../components/TextView";
 import { FlexColumn } from "../../components/View";
 import { Sprint } from "../../models/sprint";
-import TaskItem from "../../components/TaskItem";
 import { Task } from "../../models/task";
 import { Project } from "../../models/project";
 import SprintItem from "../../components/SprintItem";

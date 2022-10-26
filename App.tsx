@@ -8,6 +8,7 @@ import Job from "./modules/job";
 import { navigationRef } from "./utils/navigation";
 import { AuthProvider } from "./context/authContext";
 import { ProjectProvider } from "./context/projectContext";
+import { NativeBaseProvider } from "native-base";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,23 +16,25 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
-        <AuthProvider>
-          <ProjectProvider>
-            <NavigationContainer ref={navigationRef}>
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}
-                initialRouteName="login"
-              >
-                <Stack.Screen name="home" component={Home} />
-                <Stack.Screen name="login" component={Login} />
-                <Stack.Screen name="signup" component={Signup} />
-                <Stack.Screen name="job" component={Job} />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </ProjectProvider>
-        </AuthProvider>
+        <NativeBaseProvider>
+          <AuthProvider>
+            <ProjectProvider>
+              <NavigationContainer ref={navigationRef}>
+                <Stack.Navigator
+                  screenOptions={{
+                    headerShown: false,
+                  }}
+                  initialRouteName="login"
+                >
+                  <Stack.Screen name="home" component={Home} />
+                  <Stack.Screen name="login" component={Login} />
+                  <Stack.Screen name="signup" component={Signup} />
+                  <Stack.Screen name="job" component={Job} />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </ProjectProvider>
+          </AuthProvider>
+        </NativeBaseProvider>
       </SafeAreaView>
     </SafeAreaProvider>
   );

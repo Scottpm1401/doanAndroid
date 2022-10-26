@@ -2,6 +2,7 @@ import { Sprint } from "../models/sprint";
 import React, { useState, createContext, useContext } from "react";
 import { Project } from "../models/project";
 import { AuthContext } from "./authContext";
+import { Task } from "../models/task";
 
 type ProjectContextType = {
   project: Project | undefined;
@@ -10,6 +11,13 @@ type ProjectContextType = {
   addSprint: (item: Sprint) => void;
   updateSprint: (sprint: Sprint) => void;
   deleteSprint: (sprint: Sprint) => void;
+  task: Task | undefined;
+  setTask: React.Dispatch<React.SetStateAction<Task | undefined>>;
+  sprintId: string | undefined;
+  setSprintId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  updateTask: (task: Task) => void;
+  deleteTask: (task: Task) => void;
+  addTask: (task: Task) => void;
 };
 
 export const ProjectContext = createContext<ProjectContextType>();
@@ -20,6 +28,8 @@ export const ProjectProvider = ({
   children: React.ReactNode;
 }) => {
   const [project, setProject] = useState<Project | undefined>(undefined);
+  const [task, setTask] = useState<Task | undefined>(undefined);
+  const [sprintId, setSprintId] = useState<string | undefined>(undefined);
   const { user, setUser, updateUserProjects, updateUserSingleProject } =
     useContext(AuthContext);
 
@@ -79,6 +89,53 @@ export const ProjectProvider = ({
     }
   };
 
+  const updateTask = (task: Task) => {
+    if (project) {
+      const currentSprint = project.sprints.find(
+        (item) => item.id === sprintId
+      );
+      if (currentSprint) {
+        const newTasks = currentSprint.tasks.map((item) => {
+          if (item.id === task.id) {
+            return task;
+          } else return item;
+        });
+        const newSprint: Sprint = { ...currentSprint, tasks: newTasks || [] };
+        setTask(task);
+        updateSprint(newSprint);
+      }
+    }
+  };
+
+  const deleteTask = (task: Task) => {
+    if (project) {
+      const currentSprint = project.sprints.find(
+        (item) => item.id === sprintId
+      );
+      if (currentSprint) {
+        const newTasks = currentSprint.tasks.filter(
+          (item) => item.id !== task.id
+        );
+        const newSprint = { ...currentSprint, tasks: newTasks };
+        setTask(undefined);
+        updateSprint(newSprint);
+      }
+    }
+  };
+
+  const addTask = (task: Task) => {
+    if (project) {
+      const currentSprint = project.sprints.find(
+        (item) => item.id === sprintId
+      );
+      if (currentSprint) {
+        const newTasks = [...currentSprint.tasks, task];
+        const newSprint: Sprint = { ...currentSprint, tasks: newTasks || [] };
+        updateSprint(newSprint);
+      }
+    }
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -88,6 +145,13 @@ export const ProjectProvider = ({
         addSprint,
         updateSprint,
         deleteSprint,
+        task,
+        setTask,
+        sprintId,
+        setSprintId,
+        updateTask,
+        deleteTask,
+        addTask,
       }}
     >
       {children}

@@ -48,7 +48,10 @@ const CreateSprint = ({ isOpen, setIsOpen, sprint }: CreateProjectType) => {
   };
 
   const updateSprintName = (values: SprintType) => {
-    if (sprint) updateSprint({ ...sprint, title: values.sprintName });
+    if (sprint) {
+      updateSprint({ ...sprint, title: values.sprintName });
+      setIsOpen();
+    }
   };
 
   return (
@@ -71,7 +74,14 @@ const CreateSprint = ({ isOpen, setIsOpen, sprint }: CreateProjectType) => {
         onSubmit={sprint ? updateSprintName : createSprint}
         validationSchema={SprintSchema}
       >
-        {({ handleChange, handleSubmit, errors, values, touched }) => (
+        {({
+          handleChange,
+          handleSubmit,
+          setFieldValue,
+          errors,
+          values,
+          touched,
+        }) => (
           <FlexColumn style={{ marginTop: 32 }}>
             <TextView size={"text_15"} style={{ color: "white" }}>
               Sprint Name
@@ -107,7 +117,7 @@ const CreateSprint = ({ isOpen, setIsOpen, sprint }: CreateProjectType) => {
                 fontWeight="bold"
                 style={{ color: "white" }}
               >
-                Create
+                {sprint ? "Update" : "Create"}
               </TextView>
             </Pressable>
           </FlexColumn>

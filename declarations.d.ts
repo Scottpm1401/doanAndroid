@@ -1,13 +1,12 @@
-import * as React from 'react';
-
-declare module 'react-native' {
-  declare module '*.svg' {
-    import { SvgProps } from 'react-native-svg';
+import * as React from "react";
+declare module "react-native" {
+  declare module "*.svg" {
+    import { SvgProps } from "react-native-svg";
     const content: React.FC<SvgProps>;
     export default content;
   }
 
-  declare module '*.png' {
+  declare module "*.png" {
     const value: string;
     export default value;
   }
@@ -27,8 +26,8 @@ declare module 'react-native' {
     accessibilityTraits?: never;
     href?: string;
     hrefAttrs?: {
-      rel: 'noreferrer';
-      target?: '_blank';
+      rel: "noreferrer";
+      target?: "_blank";
     };
   }
 
@@ -36,8 +35,8 @@ declare module 'react-native' {
     accessibilityRole?: string;
     href?: string;
     hrefAttrs?: {
-      rel: 'noreferrer';
-      target?: '_blank';
+      rel: "noreferrer";
+      target?: "_blank";
     };
     onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   }

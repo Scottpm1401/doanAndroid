@@ -1,5 +1,4 @@
 import IcCircleClose from "../../assets/svg/ic_circle_close.svg";
-import Logo from "../../assets/svg/ic_izi_logo.svg";
 import React, { useCallback, useMemo } from "react";
 import {
   Dimensions,
@@ -99,17 +98,13 @@ const DefaultModal = ({
                   flexDirection: "row",
                   justifyContent: "center",
                 }}
-              >
-                <Logo width={32} height={32} />
-              </View>
+              ></View>
             )}
           </ModalHeader>
           <ScrollView
             style={{
-              maxHeight: isWeb()
-                ? "80vh"
-                : Dimensions.get("screen").height * 0.8,
               width: "100%",
+              height: "100%",
             }}
           >
             {children}

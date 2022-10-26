@@ -1,82 +1,47 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import TextView from "../../components/TextView";
-import { FlexColumn, FlexRowCenter } from "../../components/View";
-import { Priority, Task } from "../../models/task";
-import EqualIcon from "../../assets/svg/equal_icon.svg";
-import DownArrowIcon from "../../assets/svg/down-arrow.svg";
-import ArrowUpIcon from "../../assets/svg/up_arrow.svg";
-import ArrowDoubleIcon from "../../assets/svg/doubleUp.svg";
-import DoubleDown from "../../assets/svg/doubleDown.svg";
-const TaskItem = ({ props }: { props: Task }) => {
-  const renderIcon = (priority: Priority) => {
-    switch (priority) {
-      case Priority.MEDIUM:
-        {
-          return (
-            <EqualIcon style={{ width: 16, height: 16, fill: "yellow" }} />
-          );
-        }
-        break;
-      case Priority.HIGHEST:
-        {
-          return (
-            <ArrowDoubleIcon style={{ width: 10, height: 10, fill: "white" }} />
-          );
-        }
-        break;
-      case Priority.LOW:
-        {
-          return (
-            <DownArrowIcon style={{ width: 10, height: 10, fill: "#0a32c2" }} />
-          );
-        }
-        break;
-      case Priority.LOWEST:
-        {
-          return (
-            <DoubleDown
-              style={{
-                width: 10,
-                height: 10,
-                fill: "blue",
-                transform: [{ rotate: "180deg" }],
-              }}
-            />
-          );
-        }
-        break;
-    }
+import { FlexRowCenter } from "../../components/View";
+import { Task } from "../../models/task";
+import { Button } from "native-base";
+import { navigate } from "../../utils/navigation";
+import { ProjectContext } from "../../context/projectContext";
+import TaskStatusItem from "../../components/TaskStatusItem";
+import TaskPriorityItem from "../../components/TaskPriorityItem";
+
+const TaskItem = ({ props, sprintId }: { props: Task; sprintId: string }) => {
+  const { setTask, setSprintId } = useContext(ProjectContext);
+
+  const handleNavigateJob = () => {
+    setTask(props);
+    setSprintId(sprintId);
+    navigate("job");
   };
 
   return (
-    <FlexColumn>
+    <Button
+      variant="unstyled"
+      onPress={() => handleNavigateJob()}
+      display="flex"
+      flexDirection="column"
+      justifyContent="flex-start"
+      marginBottom={4}
+      padding="0"
+    >
       <TextView style={{ color: "white" }} size={"text_20"}>
         {props.title}
       </TextView>
-      <FlexRowCenter>
+      <FlexRowCenter style={{ marginTop: 4 }}>
         <FlexRowCenter
           style={{
-            marginRight: 8,
-            borderRadius: 4,
-            backgroundColor: "white",
+            marginRight: 16,
           }}
         >
-          <TextView
-            style={{
-              padding: 5,
-              color: "green",
-              fontWeight: "700",
-            }}
-            size={"text_11"}
-          >
-            {props.status.toUpperCase()}
-          </TextView>
+          <TaskStatusItem status={props.status} />
         </FlexRowCenter>
 
-        {renderIcon(props.priority)}
+        <TaskPriorityItem priority={props.priority} />
       </FlexRowCenter>
-    </FlexColumn>
+    </Button>
   );
 };
 
